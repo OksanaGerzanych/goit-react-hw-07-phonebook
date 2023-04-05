@@ -7,19 +7,26 @@ import {
   FormField,
   Form,
   FormButton,
+  ErrorMessage,
 } from 'components/ContactForm/ContactForm.styled';
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+// phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
-     .min(2, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('Required'),
-  number: Yup.number()
-    .min(10, 'Too Short!')
-     .max(50, 'Too Long!')
-     .required('Required'),
- });
- 
+    .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, {
+      message:
+        "Invalid name. Name may contain only letters, apostrophe, dash and spaces.",
+    })
+    .required('Please, enter contact name'),
+  number: Yup.string()
+    .matches(phoneRegExp, {
+      message:
+        'Phone number is not valid.',
+    })
+    .required('Please, enter phone number'),
+});
 
 export const ContactForm = ({ onSubmit }) => (
   <div>
@@ -40,23 +47,13 @@ export const ContactForm = ({ onSubmit }) => (
       <Form>
         <FormField>
           Name
-          <Field
-            type="text"
-            name="name"
-            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            // required
-          />
+          <Field type="text" name="name" />
+          <ErrorMessage name="name" component="span" />
         </FormField>
         <FormField>
           Number
-          <Field
-            type="tel"
-            name="number"
-            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            // required
-          />
+          <Field type="tel" name="number" />
+          <ErrorMessage name="number" component="span" />
         </FormField>
         <FormButton type="submit">Add contact</FormButton>
       </Form>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { getContacts } from 'redux/selectors';
 import { useSelector } from 'react-redux/es/exports';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';

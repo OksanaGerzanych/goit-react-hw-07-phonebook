@@ -12,7 +12,7 @@ const dispatch = useDispatch();
   return (
     <Item>
       {name}:{number}
-      <ButtonDelete type="button" id={id} onClick={() => dispatch(deleteContact(id))}>
+      <ButtonDelete type="button" onClick={() => dispatch(deleteContact(id))}>
         Delete
       </ButtonDelete>
     </Item>

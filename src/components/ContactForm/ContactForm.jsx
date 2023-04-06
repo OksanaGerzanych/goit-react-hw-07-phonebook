@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/operations';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { useSelector } from 'react-redux/es/exports';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Formik, Field } from 'formik';
@@ -30,7 +30,7 @@ const ContactSchema = Yup.object().shape({
 });
 
 export const ContactForm = () => {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
@@ -40,7 +40,7 @@ export const ContactForm = () => {
     if (existstName) {
       return Notify.info(`This name is already in contacts!`);
     }
-    dispatch(addContact(values.name, values.number));
+    dispatch(addContact(values));
     actions.resetForm();
   };
 
